@@ -1,0 +1,82 @@
+scalar MetadataValue
+
+type Collection {
+  contractPackageHash: String!
+  contractHash: String!
+  slug: String!
+  name: String!
+  symbol: String!
+  description: String
+  verified: Boolean!
+  promoted: Boolean!
+  background: String
+  logo: String
+  twitter: String
+  discord: String
+}
+
+type PaginationInfo {
+  total: Int!
+  limit: Int!
+  currentPage: Int!
+  totalPages: Int!
+  pageCounter: Int!
+  hasPrev: Boolean!
+  hasNext: Boolean!
+  prevPage: Boolean!
+  nextPage: Int!
+}
+
+type GetCollectionsResponse {
+  collections: [Collection!]!
+  paginationInfo: PaginationInfo!
+}
+
+type Slug {
+  slug: String!
+  contractHash: String!
+}
+
+type GetCollectionSlugsResponse {
+  data: [Slug!]
+}
+
+type DistinctValue {
+  value: MetadataValue!
+  count: Int!
+  percent: Float!
+}
+
+type MetadataInfo {
+  trait: String!
+  total: Int!
+  distinctValues: [DistinctValue!]!
+}
+
+type GetMetadataInfoResponse {
+  data: [MetadataInfo!]
+}
+
+type Query {
+  getCollections(query: String, page: Int, limit: Int): GetCollectionsResponse
+  getCollectionSlugs: GetCollectionSlugsResponse
+  getMetadataInfo(slug: String!): GetMetadataInfoResponse
+}
+
+type Mutation {
+  addCollection(
+    contractPackageHash: String!
+    contractHash: String!
+    slug: String
+    symbol: String!
+    name: String!
+    description: String
+    verified: Boolean!
+    promoted: Boolean
+    collection: String
+    image: String
+    twitter: String
+    discord: String
+    website: String
+  ): Collection
+}

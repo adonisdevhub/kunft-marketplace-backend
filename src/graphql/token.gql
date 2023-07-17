@@ -1,0 +1,98 @@
+scalar Metadata
+scalar GraphQLDate
+scalar GraphQLLong
+
+type Sale {
+  creator: String!
+  price: String!
+  payToken: String
+  startTime: GraphQLLong!
+  status: String!
+  createdAt: GraphQLDate!
+  updatedAt: GraphQLDate!
+}
+
+type Offer {
+  creator: String!
+  payToken: String
+  price: String!
+  startTime: GraphQLLong!
+  owner: String
+  additionalRecipient: String
+  status: String!
+  createdAt: GraphQLDate!
+  updatedAt: GraphQLDate!
+}
+
+type Price {
+  price: String!
+  payToken: String
+}
+
+type Token {
+  collection: Collection!
+  tokenId: String!
+  metadata: Metadata!
+  favoritedUsers: [String!]
+  viewed: Int!
+  owner: String!
+  sales: [Sale!]!
+  offers: [Offer!]!
+  price: Price
+  listed: Boolean!
+}
+
+type GetTokensResponse {
+  tokens: [Token!]
+  paginationInfo: PaginationInfo!
+}
+
+input PriceInput {
+  payToken: String!
+  min: String!
+  max: String!
+}
+
+input GetTokensInput {
+  slug: String
+  owner: String
+  tokenId: String
+  promoted: Boolean
+  listed: Boolean
+  metadata: Metadata
+  price: PriceInput
+}
+
+type SalesInfo {
+  payToken: String
+  price: String!
+}
+
+type GetHighestSalesInfoResponse {
+  result: [SalesInfo!]!
+}
+
+input GetHighestSalesInfoInput {
+  slug: String!
+  tokenId: String!
+}
+
+type Query {
+  getTokens(where: GetTokensInput!, page: Int, limit: Int): GetTokensResponse
+  getHighestSalesInfo(
+    where: GetHighestSalesInfoInput!
+  ): GetHighestSalesInfoResponse
+}
+
+type TokenResponse {
+  token: Token!
+}
+
+type Mutation {
+  addToken(contractHash: String!, tokenId: String!): TokenResponse
+  favoriteToken(
+    slug: String!
+    tokenId: String!
+    publicKey: String!
+  ): TokenResponse
+}

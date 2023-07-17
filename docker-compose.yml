@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  kunft:
+    build:
+      context: .
+    container_name: kunft
+    env_file:
+      - ./.env
+    restart: always
+    command: yarn start
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+
+    depends_on:
+      - kunft-redis
+    ports:
+      - 8000:8000

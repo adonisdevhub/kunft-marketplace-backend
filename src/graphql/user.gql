@@ -1,0 +1,20 @@
+type User {
+  slug: String!
+  publicKey: String!
+  accountHash: String!
+  verified: Boolean!
+  name: String
+  avatar: String
+  description: String
+  ownedTokens: Int
+}
+
+input GetUserInfo {
+  slug: String
+  accountHash: String
+  publicKey: String
+}
+
+type Query {
+  getUserInfo(where: GetUserInfo!): User
+}
